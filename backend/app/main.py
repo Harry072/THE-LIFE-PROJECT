@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
+from app.api.v1 import auth, onboarding, tasks, reflection, progress, meditation, users
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -21,7 +22,11 @@ if settings.BACKEND_CORS_ORIGINS:
 def health_check():
     return {"status": "ok", "message": "The Life Project API is running"}
 
-# Routers will be included here as they are implemented
-# app.include_router(auth.router, prefix=settings.API_V1_STR + "/auth", tags=["auth"])
-# app.include_router(onboarding.router, prefix=settings.API_V1_STR + "/onboarding", tags=["onboarding"])
-# ... etc
+# Include Routers
+app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
+app.include_router(onboarding.router, prefix=f"{settings.API_V1_STR}/onboarding", tags=["onboarding"])
+app.include_router(tasks.router, prefix=f"{settings.API_V1_STR}/tasks", tags=["tasks"])
+app.include_router(reflection.router, prefix=f"{settings.API_V1_STR}/reflection", tags=["reflection"])
+app.include_router(progress.router, prefix=f"{settings.API_V1_STR}/progress", tags=["progress"])
+app.include_router(meditation.router, prefix=f"{settings.API_V1_STR}/meditation", tags=["meditation"])
+app.include_router(users.router, prefix=f"{settings.API_V1_STR}/users", tags=["users"])
